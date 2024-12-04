@@ -13,17 +13,14 @@
       Название услуги: {{ service.name }}
     </li>
     <li>
-      Имя мастера: {{ service.master }}
-    </li>
-    <li>
-      Имя мастера: <a href="{% url 'blog:category_posts' service.master %}">{{ pservice.master }}</a>
+      Имя мастера: <a href="{% url 'service:master_detail' service.master %}">{{ service.master }}</a>
     </li>
   </ul>
   <!-- Первые 10 слов -->
   <p>
-    {{ post.text|truncatewords:10 }}
+    {{ service.text|truncatewords:10 }}
   </p>
-  <a href="{% url 'blog:post_detail' post.id %}">Читать полный текст</a>
+  <a href="{% url 'service:service_detail' service.name %}">Информация об услуге</a>
 </article>
 {% if not forloop.last %}
 <hr>
