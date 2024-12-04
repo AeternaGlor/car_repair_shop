@@ -8,19 +8,15 @@
 <hr>
 {% for service in services %}
 <article>
-  <ul>
-    <li>
-      Название услуги: {{ service.name }}
-    </li>
-    <li>
-      Имя мастера: <a href="{% url 'service:master_detail' service.master_slug %}">{{ service.master }}</a>
-    </li>
-  </ul>
+  <h3>{{ service.name }}</h3>
+  <h6>Имя мастера: <a href="{% url 'service:master_detail' service.master_slug %}">{{ service.master }}</a></h6>
   <!-- Первые 10 слов -->
+  <h6>Краткое описание</h6>
   <p>
     {{ service.text|truncatewords:10 }}
   </p>
   <a href="{% url 'service:service_detail' service.name_slug %}">Информация об услуге</a>
+  <p><a href="">Записаться (неактивно)</a></p>
 </article>
 {% if not forloop.last %}
 <hr>
