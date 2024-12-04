@@ -20,7 +20,7 @@
   <p>
     {{ service.text|truncatewords:10 }}
   </p>
-  <a href="{% url 'service:service_detail' service.name %}">Информация об услуге</a>
+  <a href="{% url 'service:service_detail' service.name_slug %}">Информация об услуге</a>
 </article>
 {% if not forloop.last %}
 <hr>
