@@ -57,9 +57,11 @@ services = [
     },
 ]
 
-new_services = {service['name']: service for service in services}
-for name, service in new_services.items():
+for service in services:
     service['master_slug'] = slugify(service['master'])
+    service['name_slug'] = slugify(service['name'])
+
+new_services = {service['name_slug']: service for service in services}
 
 
 # Create your views here.
@@ -76,6 +78,7 @@ def service_detail(request, service_name):
 
     if str(service_name) not in new_services.keys():
         raise Http404(f'Нет услуги с таким названием: {service_name}')
+    
     service = new_services[str(service_name)]
 
     context = {
