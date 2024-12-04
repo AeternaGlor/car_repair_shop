@@ -88,8 +88,13 @@ def service_detail(request, service_name):
 def master_detail(request, master_slug):
     template_name = 'service/master_detail.html'
     context = {
-        'master_slug': master_slug
+        'master': 'Аноним'
     }
+    for service in new_services.values():
+        if service['master_slug'] == master_slug:
+            context['master'] = service['master']
+            break
+    
     return render(request, template_name, context)
 
 
