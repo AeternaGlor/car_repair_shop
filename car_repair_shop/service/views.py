@@ -1,5 +1,6 @@
 from django.shortcuts import render  # type: ignore[import-untyped]
 from django.http import Http404
+from slugify import slugify
 
 
 services = [
@@ -57,6 +58,8 @@ services = [
 ]
 
 new_services = {service['name']: service for service in services}
+for name, service in new_services.items():
+    service['master_slug'] = slugify(service['master'])
 
 
 # Create your views here.
@@ -72,7 +75,7 @@ def service_detail(request, service_name):
     template_name = 'service/service_detail.html'
 
     if str(service_name) not in new_services.keys():
-        raise Http404(f'Нет услуги с таким идентификатором: {service_name}')
+        raise Http404(f'Нет услуги с таким названием: {service_name}')
     service = new_services[str(service_name)]
 
     context = {
@@ -88,3 +91,10 @@ def master_detail(request, master_slug):
         'master_slug': master_slug
     }
     return render(request, template_name, context)
+
+
+if __name__ == "__main__":
+    # new_services = {service['master_slug'] = slugify(service['master']) for name, service in new_services.items()}
+    for name, service in new_services.items():
+        service['master_slug'] = 'slaggggg'
+    print(new_services['Ремонт тормозной системы'])

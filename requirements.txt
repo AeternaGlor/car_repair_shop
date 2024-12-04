@@ -5,3 +5,5 @@ pytest-django==4.5.2
 pytest-pythonpath==0.7.3
 flake8==5.0.4
 flake8-docstrings==1.7.0
+
+# pip install python-slugify
