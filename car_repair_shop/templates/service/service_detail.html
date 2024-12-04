@@ -9,17 +9,14 @@
 <article>
   <ul>
     <li>
-      Место: {{ post.location }}
+      Название услуги: {{ service.name }}
     </li>
     <li>
-      Дата: {{ post.date }}
-    </li>
-    <li>
-      Категория: <a href="{% url 'blog:category_posts' post.category %}">{{ post.category }}</a>
+      Имя мастера: <a href="{% url 'service:master_detail' service.master %}">{{ service.master }}</a>
     </li>
   </ul>
   <p>
-    {{ post.text }}
+    {{ service.text }}
   </p>
 </article>
 {% endblock %}

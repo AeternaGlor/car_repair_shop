@@ -56,36 +56,35 @@ services = [
     },
 ]
 
-new_services = {service['id']: service for service in services}
+new_services = {service['name']: service for service in services}
 
 
 # Create your views here.
 def index(request):
     template_name = 'service/index.html'
     context = {
-        'posts': posts.__reversed__()
+        'services': services.__reversed__()
     }
     return render(request, template_name, context)
 
 
-def service_detail(request, post_id):
+def service_detail(request, service_name):
     template_name = 'service/service_detail.html'
 
-    if str(post_id) not in new_posts.keys():
-        # raise ValueError(f'Нет поста с таким иднтифакатором: {post_id}')
-        raise Http404(f'Нет поста с таким идeнтифакатором: {post_id}')
-    post = new_posts[str(post_id)]
+    if str(service_name) not in new_services.keys():
+        raise Http404(f'Нет услуги с таким идентификатором: {service_name}')
+    service = new_services[str(service_name)]
 
     context = {
-        'post': post
+        'service': service
     }
 
     return render(request, template_name, context)
 
 
-def master_detail(request, category_slug):
+def master_detail(request, master_slug):
     template_name = 'service/master_detail.html'
     context = {
-        'category_slug': category_slug
+        'master_slug': master_slug
     }
     return render(request, template_name, context)

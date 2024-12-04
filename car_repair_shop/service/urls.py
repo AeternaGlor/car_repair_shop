@@ -5,8 +5,10 @@ app_name = 'service'
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('posts/<int:post_id>/', views.post_detail, name='post_detail'),
-    path('category/<slug:category_slug>/',
-         views.category_posts,
-         name='category_posts'),
+    path('services/<slug:service_name>/',
+         views.service_detail,
+         name='service_detail'),
+    path('category/<slug:master_slug>/',
+         views.master_detail,
+         name='master_detail'),
 ]
