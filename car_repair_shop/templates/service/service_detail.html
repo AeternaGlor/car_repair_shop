@@ -10,7 +10,7 @@
   <h4>Информация об услуге "{{ service.name }}"</h4>
   <ul>
     <li>
-      Мастер: <a href="{% url 'service:master_detail' service.master.slug %}">{{ service.master }}</a>
+      Мастер: <a href="{% url 'service:master_detail' master.slug %}">{{ master }}</a>
     </li>
     <li>
       Цена: {{ service.price }}</a>
