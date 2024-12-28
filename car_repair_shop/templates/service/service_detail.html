@@ -12,7 +12,7 @@
       Название услуги: {{ service.name }}
     </li>
     <li>
-      Имя мастера: <a href="{% url 'service:master_detail' service.master_slug %}">{{ service.master }}</a>
+      Имя мастера: <a href="{% url 'service:master_detail' service.master.slug %}">{{ service.master }}</a>
     </li>
   </ul>
   <p>

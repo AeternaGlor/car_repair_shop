@@ -29,6 +29,13 @@
                  Каталог услуг
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link 
+                {% if view_name  == 'service:order_list' %}active{% endif %}" 
+                 href="{% url 'service:index' %}">
+                 Список заказов
+              </a>
+            </li>
             <li class="nav-item">              
               <a class="nav-link
                 {% if view_name  == 'pages:about' %}active{% endif %}" 
