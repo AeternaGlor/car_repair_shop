@@ -107,6 +107,22 @@ class Box(models.Model):
         return f'Бокс № {self.id}'
 
 
+class Customer(models.Model):
+    name = models.CharField(max_length=256, verbose_name="ФИО")
+    discount = models.PositiveSmallIntegerField(
+        default=0,
+        verbose_name="Процент скидки",
+    )
+
+    class Meta:
+        verbose_name = "Клиент"
+        verbose_name_plural = "Клиенты"
+        ordering = ("name",)
+
+    def __str__(self):
+        return self.name
+    
+
 class Order(models.Model):
     start_time = models.DateTimeField(
         verbose_name="Дата и время начала оказания услуги",
@@ -123,6 +139,12 @@ class Order(models.Model):
         verbose_name="Услуга",
         related_name="orders",
     )
+    customer = models.ForeignKey(
+        Customer,
+        on_delete=models.CASCADE,
+        verbose_name="Клиент",
+        related_name="orders",
+    )
 
     class Meta:
         verbose_name = "заказ"
@@ -131,25 +153,3 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Заказ № {self.id}"
-
-
-class Customer(models.Model):
-    name = models.CharField(max_length=256, verbose_name="ФИО")
-    discount = models.PositiveSmallIntegerField(
-        default=0,
-        verbose_name="Процент скидки",
-    )
-    order = models.ForeignKey(
-        Order,
-        on_delete=models.CASCADE,
-        verbose_name="Заказы",
-        related_name="customer",
-    )
-
-    class Meta:
-        verbose_name = "Клиент"
-        verbose_name_plural = "Клиенты"
-        ordering = ("name",)
-
-    def __str__(self):
-        return self.name

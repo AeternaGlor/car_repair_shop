@@ -2,6 +2,7 @@ from datetime import timezone
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from slugify import slugify
+from .models import Customer, Order, Box, TimeSlot, Master, Service
 
 
 # Create your views here.
