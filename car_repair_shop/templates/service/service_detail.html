@@ -7,14 +7,19 @@
 
 {% block content %}
 <article>
+  <h4>Информация об услуге "{{ service.name }}"</h4>
   <ul>
     <li>
-      Название услуги: {{ service.name }}
+      Мастер: <a href="{% url 'service:master_detail' service.master.slug %}">{{ service.master }}</a>
     </li>
     <li>
-      Имя мастера: <a href="{% url 'service:master_detail' service.master.slug %}">{{ service.master }}</a>
+      Цена: {{ service.price }}</a>
+    </li>
+    <li>
+      Продолжительность оказания: {{ service.duration }}</a>
     </li>
   </ul>
+  <h5>Описание</h5>
   <p>
     {{ service.text }}
   </p>

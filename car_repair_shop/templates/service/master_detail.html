@@ -6,17 +6,14 @@
 {% endblock %}
 
 {% block content %}
-<h1>Мастер {{ master.name }}</h1>
+<h3>Информация о мастере {{ master.name }}</h3>
 <div class="row">
     <!-- Первая "колонка" в строке, её ширина — 2/12 -->
     
     <!-- Вторая "колонка" в строке, её ширина — 10/12 -->
     <div class="col-10">
         <div>
-            Мастер: {{ master.name }}
-        </div>
-        <div>
-            О мастере: {{ master.text }}
+            {{ master.text }}
             {% comment %} <a href="{% url 'birthday:edit' birthday.id %}">Изменить запись</a> | <a
                 href="{% url 'birthday:delete' birthday.id %}">Удалить запись</a> {% endcomment %}
         </div>

@@ -11,7 +11,10 @@ def index(request):
 
     services = Service.objects.select_related(
         'master'
-    ).filter()
+    ).filter(
+        is_shown=True,
+        master__is_shown=True
+    )
 
     context = {
         'services': services
@@ -26,9 +29,9 @@ def service_detail(request, service_slug):
         Service.objects.select_related(
             'master'
         ),
-    ).filter(
-        'service__is_shown' is True,
-        'master__is_shown' is True
+        is_shown=True,
+        master__is_shown=True,
+        slug=service_slug,
     )
 
     context = {
