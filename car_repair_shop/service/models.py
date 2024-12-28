@@ -144,6 +144,7 @@ class Order(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Клиент",
         related_name="orders",
+        null=True
     )
 
     class Meta:
