@@ -1,8 +1,9 @@
 from datetime import timezone
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
-from slugify import slugify
+from django.utils import timezone
 from .models import Customer, Order, Box, TimeSlot, Master, Service
+from . import utils
 
 
 # Create your views here.
@@ -56,17 +57,16 @@ def master_detail(request, master_slug):
 def order_list(request):
     template_name = 'service/order_list.html'
 
-    order_list = Order.objects.select_related(
+    orders = Order.objects.select_related(
         'service',
-        'master'
+        'box',
+        'customer'
     ).filter(
-        'service__is_shown' is True,
-        'master__is_shown' is True,
-        'start_time' == timezone.now()
+        start_time__gte=timezone.now()
     )
 
     context = {
-        'order_list': order_list
+        'orders': orders
     }
 
     return render(request, template_name, context)
@@ -78,19 +78,25 @@ def order_detail(request, order_id):
     order = get_object_or_404(
         Order.objects.select_related(
             'service',
+            'customer',
             'box'
         ),
-        order_id
+        id=order_id
     )
 
-    customer = get_object_or_404(Customer, order=order)
+    final_price = order.service.price * (100 - order.customer.discount) / 100
+    final_price = int(final_price)
 
-    total_price = order.service.price * customer.discount / 100
+    ruble_word_form = utils.PluralRubleForm(final_price)
+
+    start_time = order.start_time.strftime('%d/%m/%Y')
+    print(start_time)
 
     context = {
         'order': order,
-        'customer': customer,
-        'total_price': total_price
+        'start_time': start_time,
+        'final_price': final_price,
+        'ruble_word_form': ruble_word_form
     }
 
     return render(request, template_name, context)
