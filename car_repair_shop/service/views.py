@@ -30,8 +30,6 @@ def service_detail(request, service_slug):
         Service.objects.select_related(
             'master'
         ),
-        is_shown=True,
-        master__is_shown=True,
         slug=service_slug,
     )
 
