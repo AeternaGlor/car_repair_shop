@@ -10,7 +10,7 @@
   <h3>Услуга: <a href="{% url 'service:service_detail' order.service.slug %}">{{ order.service.name }}</a></h3>
   <h6>Время: {{ order.start_time }}</h6>
   <h6>Бокс номер: {{ order.box.id }}</h6>
-  <h6>Имя клиента: {{ customer.name }}</h6>
+  <h6>Имя клиента: {{ order.customer.name }}</h6>
   <a href="{% url 'service:order_detail' order.id %}">Информация о заказе</a>
 </article>
 {% if not forloop.last %}

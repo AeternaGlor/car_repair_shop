@@ -9,7 +9,7 @@ urlpatterns = [
           views.service_detail,
           name='service_detail'
      ),
-     path('orders/>',
+     path('orders/',
           views.order_list,
           name='order_list'
      ),
