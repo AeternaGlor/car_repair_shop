@@ -30,13 +30,9 @@ def service_detail(request, service_slug):
         Service.objects.select_related(
             'master'
         ),
-<<<<<<< HEAD
-        slug=service_slug
-=======
         is_shown=True,
         master__is_shown=True,
         slug=service_slug,
->>>>>>> e7c5f87d3183d1ab60b10986ba025629ed471f45
     )
 
     context = {
