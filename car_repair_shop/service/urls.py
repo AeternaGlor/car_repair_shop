@@ -39,21 +39,22 @@ urlpatterns = [
         views.master_detail,
         name='master_detail'
     ),
-     # path(
+    path(
+     #    'profile/<int:pk>/edit/',
+        'profile/<slug:username>/edit/',
+        views.UpdateUser.as_view(),
+        name='edit_profile'
+    ),
+         # path(
      #     'profile_edit/<slug:username>/',
      #     views.UpdateUser.as_view(),
      # #     views.profile,
      #     name='edit_profile'
      # ),
-     path(
-        'profile/<int:pk>/edit/',
-        views.UpdateUser.as_view(),
-        name='edit_profile'
-     ),
-     path(
+    path(
          'profile/<slug:username>/',
          views.profile,
          name='profile'
-     ),
-     
+    ),
+
 ]
