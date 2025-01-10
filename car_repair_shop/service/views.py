@@ -2,6 +2,7 @@ from datetime import timezone
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from django.utils import timezone
+from django.core.paginator import Paginator
 from .models import Customer, Order, Box, TimeSlot, Master, Service
 from . import utils
 
@@ -17,9 +18,14 @@ def index(request):
         master__is_shown=True
     )
 
+    paginator = Paginator(services, 2)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'services': services
+        'page_obj': page_obj
     }
+
     return render(request, template_name, context)
 
 
@@ -67,8 +73,12 @@ def order_list(request):
     for order in orders:
         order.start_time = order.start_time.strftime('%d/%m/%Y')
 
+    paginator = Paginator(orders, 2)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'orders': orders
+        'page_obj': page_obj
     }
 
     return render(request, template_name, context)
