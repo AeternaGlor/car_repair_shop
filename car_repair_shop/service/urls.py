@@ -20,6 +20,11 @@ urlpatterns = [
          name='order_list'
      ),
      path(
+         'orders/create',
+         views.order_list,
+         name='create_order'
+     ),
+     path(
          'orders/<int:order_id>/',
          views.order_detail,
          name='order_detail'

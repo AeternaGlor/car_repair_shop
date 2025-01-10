@@ -3,8 +3,11 @@ from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from django.utils import timezone
 from django.core.paginator import Paginator
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView
 from .models import Customer, Order, Box, TimeSlot, Master, Service
 from . import utils
+from . import forms
 
 
 # Create your views here.
@@ -110,3 +113,14 @@ def order_detail(request, order_id):
     }
 
     return render(request, template_name, context)
+
+
+def CreateOrder(request):
+
+    form = forms.CreateOrderForm()
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'service/order_create.html', context)
