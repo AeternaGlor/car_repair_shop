@@ -40,6 +40,29 @@
           {% endif %}
           {% bootstrap_button button_type="submit" content="Отправить" %}
         </form>
+        
+        <script>
+            $(document).ready(function() {
+                $('#id_box, #id_service').change(function() {
+                    var boxId = $('#id_box').val();
+                    var serviceId = $('#id_service').val();
+                    $.ajax({
+                        url: '/get_time_slots/',
+                        data: {
+                            'box_id': boxId,
+                            'service_id': serviceId
+                        },
+                        success: function(data) {
+                            var timeSlotSelect = $('#id_time_slot');
+                            timeSlotSelect.empty();
+                            data.time_slots.forEach(function(timeSlot) {
+                                timeSlotSelect.append('<option value="' + timeSlot.id + '">' + timeSlot.start_time + '</option>');
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
       </div>
     </div>
   </div>

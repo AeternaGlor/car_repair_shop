@@ -10,16 +10,16 @@
   <h3>Заказ номер: {{ order.id }}</h3>
   <ul>
     <li>
-      Время: {{ order.start_time }}
+      Услуга: <a href="{% url 'service:service_detail' order.service.slug %}">{{ order.service.name }}</a>
     </li>
     <li>
-      Услуга: <a href="{% url 'service:service_detail' order.service.slug %}">{{ order.service.name }}</a>
+      Имя клиента: {{ order.customer.name }}
     </li>
     <li>
       Бокс номер: {{ order.box.id }}
     </li>
     <li>
-      Имя клиента: {{ order.customer.name }}
+      Время: {{ order.time_slot.start_time }}
     </li>
     <li>
       Итоговая цена: {{ final_price }} {{ruble_word_form}}

@@ -37,7 +37,7 @@ class TimeSlot(models.Model):
         ordering = ("start_time",)
 
     def __str__(self):
-        return f"Временной слот с датой начала {self.start_time}"
+        return self.start_time.strftime('%d-%m-%Y %H:%M')
 
 
 class Master(AbstractModel):
@@ -124,8 +124,11 @@ class Customer(models.Model):
 
 
 class Order(models.Model):
-    start_time = models.DateTimeField(
-        verbose_name="Дата и время начала оказания услуги",
+    time_slot = models.ForeignKey(
+        TimeSlot,
+        on_delete=models.CASCADE,
+        verbose_name="Временной слот",
+        related_name="orders",
     )
     box = models.ForeignKey(
         Box,
@@ -150,7 +153,6 @@ class Order(models.Model):
     class Meta:
         verbose_name = "заказ"
         verbose_name_plural = "Заказы"
-        ordering = ("start_time",)
 
     def __str__(self):
         return f"Заказ № {self.id}"

@@ -1,6 +1,6 @@
 from datetime import timezone
-from django.shortcuts import render, get_object_or_404
-from django.http import Http404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import Http404, JsonResponse
 from django.utils import timezone
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -78,7 +78,8 @@ def order_list(request):
     )
 
     for order in orders:
-        order.start_time = order.start_time.strftime('%d/%m/%Y')
+        order.time_slot.start_time = order.time_slot.start_time.strftime(
+            '%d/%m/%Y %H:%M')
 
     paginator = Paginator(orders, 2)
     page_number = request.GET.get('page')
@@ -108,7 +109,8 @@ def order_detail(request, order_id):
 
     ruble_word_form = utils.PluralRubleForm(final_price)
 
-    order.start_time = order.start_time.strftime('%d/%m/%Y')
+    order.time_slot.start_time = order.time_slot.start_time.strftime(
+        '%d/%m/%Y %H:%M')
 
     context = {
         'order': order,
@@ -119,15 +121,50 @@ def order_detail(request, order_id):
     return render(request, template_name, context)
 
 
-def CreateOrder(request):
+def create_order(request, service_slug):
 
-    form = forms.CreateOrderForm()
+    template_name = 'service/order_create.html'
 
-    context = {
-        'form': form
-    }
+    service = get_object_or_404(Service, slug=service_slug)
 
-    return render(request, 'service/order_create.html', context)
+    if request.method == 'POST':
+        form = forms.CreateOrderForm(request.POST)
+        if form.is_valid():
+
+            order = form.save(commit=False)
+            order.service = service
+            order.save()
+
+            order.service.master.slots.add(order.time_slot)
+            order.box.slots.add(order.time_slot)
+
+            return redirect('service:index')  # Перенаправь на страницу успеха
+    else:
+        form = forms.CreateOrderForm(initial={'service': service})
+    return render(request, template_name, {'form': form})
+
+
+def get_time_slots(request):
+    box_id = request.GET.get('box_id')
+    service_id = request.GET.get('service_id')
+
+    print(service_id)
+    service = get_object_or_404(Service, pk=service_id)
+    print(service)
+    master_id = service.master.id
+
+    time_slots = TimeSlot.objects.exclude(
+        boxes__id=box_id
+    ).exclude(
+        masters__id=master_id
+    )
+
+    time_slots_list = list(time_slots.values('id', 'start_time'))
+
+    for time_slot in time_slots_list:
+        time_slot['start_time'] = time_slot['start_time'].strftime('%d-%m-%Y %H:%M')
+
+    return JsonResponse({'time_slots': time_slots_list})
 
 
 def profile(request, username):

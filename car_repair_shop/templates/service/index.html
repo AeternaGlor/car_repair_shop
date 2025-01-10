@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load django_bootstrap5 %}
 {% block title %}Список услуг{% endblock %}
 
 {% block content %}
@@ -16,7 +16,7 @@
       {{ service.text|truncatewords:10 }}
     </p>
     <a href="{% url 'service:service_detail' service.slug %}">Информация об услуге</a>
-    <p><a href="">Записаться (неактивно)</a></p>
+    <p><a href="{% url 'service:create_order' service.slug %}">Записаться</a></p>
   </article>
   {% if not forloop.last %}
     <hr>
