@@ -135,3 +135,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 CSRF_FAILURE_VIEW = 'pages.views.custom_403_CSRF'
 
 LOGIN_REDIRECT_URL = 'service:index'
+LOGIN_URL = 'login' 
+
+# Подключаем бэкенд filebased.EmailBackend:
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# Указываем директорию, в которую будут сохраняться файлы писем:
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails' 

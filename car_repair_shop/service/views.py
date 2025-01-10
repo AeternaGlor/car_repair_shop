@@ -4,13 +4,17 @@ from django.http import Http404
 from django.utils import timezone
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 from .models import Customer, Order, Box, TimeSlot, Master, Service
 from . import utils
-from . import forms
+from django.contrib.auth import get_user_model
+from django.urls import reverse, reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+# from . import forms
+
+User = get_user_model()
 
 
-# Create your views here.
 def index(request):
     template_name = 'service/index.html'
 
@@ -124,3 +128,37 @@ def CreateOrder(request):
     }
 
     return render(request, 'service/order_create.html', context)
+
+
+def profile(request, username):
+
+    template_name = 'service/profile.html'
+
+    profile = get_object_or_404(User, username=username)
+
+    context = {
+        'profile': profile,
+        # 'page_obj': page_obj
+    }
+
+    return render(request, template_name, context)
+
+
+class UpdateUser(LoginRequiredMixin, UpdateView):
+    model = User
+    fields = ('username', 'first_name', 'last_name', 'email')
+    template_name = 'service/user.html'
+    
+    def get_success_url(self):
+        return reverse(
+            'service:profile',
+            kwargs={'username': self.object.username}
+        )
+    # def get_absolute_url(self):
+    #     context = self.get_context_data()
+    #     user = context['user']
+    #     return reverse(
+    #         'service:profile',
+    #         kwargs={'username': user.username}
+    #     )
+    # success_url = reverse_lazy('service:index') 
