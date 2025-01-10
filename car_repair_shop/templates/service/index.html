@@ -6,21 +6,21 @@
 <h1>Каталог услуг</h1>
 <!-- Перебираем в цикле все посты -->
 <hr>
-{% for service in services %}
-<article>
-  <h3>{{ service.name }}</h3>
-  <h6>Имя мастера: <a href="{% url 'service:master_detail' service.master.slug %}">{{ service.master }}</a></h6>
-  <!-- Первые 10 слов -->
-  <h6>Краткое описание</h6>
-  <p>
-    {{ service.text|truncatewords:10 }}
-  </p>
-  <a href="{% url 'service:service_detail' service.slug %}">Информация об услуге</a>
-  <p><a href="">Записаться (неактивно)</a></p>
-</article>
-{% if not forloop.last %}
-<hr>
-{% endif %}
+{% for service in page_obj %}
+  <article>
+    <h3>{{ service.name }}</h3>
+    <h6>Имя мастера: <a href="{% url 'service:master_detail' service.master.slug %}">{{ service.master }}</a></h6>
+    <!-- Первые 10 слов -->
+    <h6>Краткое описание</h6>
+    <p>
+      {{ service.text|truncatewords:10 }}
+    </p>
+    <a href="{% url 'service:service_detail' service.slug %}">Информация об услуге</a>
+    <p><a href="">Записаться (неактивно)</a></p>
+  </article>
+  {% if not forloop.last %}
+    <hr>
+  {% endif %}
 {% endfor %}
-
+  {% include "includes/paginator.html" %}
 {% endblock %}
