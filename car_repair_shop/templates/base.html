@@ -12,6 +12,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/fav/favicon-16x16.png' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <title>{% block title %}Каталог услуг{% endblock %}</title>
+    {% load django_bootstrap5 %}
+    
   </head>
   <body>	   
     <header>
@@ -50,6 +52,23 @@
                 Наши правила
               </a>
             </li>
+          
+           <!-- Это блок ссылок для авторизованного пользователя -->
+           {% if user.is_authenticated %}
+           <span class="navbar-text">Пользователь: <b>{{ user.username }}</b></span>
+           <li class="nav-item">
+             <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
+           </li>
+         <!-- Конец блока ссылок для авторизованного пользователя -->
+
+         <!-- А здесь блок ссылок для неавторизованного пользователя -->
+         {% else %}
+           <li class="nav-item">
+             <a class="nav-link{% if view_name == 'login' %} active {% endif %}" href="{% url 'login' %}">Войти</a>
+           </li>        
+         {% endif %}
+        <!-- Конец блока ссылок для неавторизованного пользователя -->
+
           </ul>      
         </div>
       </nav> 
