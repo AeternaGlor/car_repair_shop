@@ -66,9 +66,7 @@ class Master(AbstractModel):
 
 class Service(AbstractModel):
     name = models.CharField(max_length=256, verbose_name="Название")
-    price = models.DecimalField(
-        decimal_places=2,
-        max_digits=5,
+    price = models.IntegerField(
         verbose_name="Цена",
         default=0
     )
@@ -82,7 +80,7 @@ class Service(AbstractModel):
 
     class Meta:
         verbose_name = "услуга"
-        verbose_name_plural = "Услиги"
+        verbose_name_plural = "Услуги"
         ordering = ("name",)
 
     def __str__(self):
@@ -151,8 +149,8 @@ class Order(models.Model):
     )
 
     class Meta:
-        verbose_name = "заказ"
-        verbose_name_plural = "Заказы"
+        verbose_name = "запись"
+        verbose_name_plural = "Записи"
 
     def __str__(self):
-        return f"Заказ № {self.id}"
+        return f"Запись № {self.id}"

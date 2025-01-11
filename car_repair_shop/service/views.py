@@ -4,6 +4,7 @@ from django.http import Http404, JsonResponse
 from django.utils import timezone
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, UpdateView, DeleteView
 from .models import Customer, Order, Box, TimeSlot, Master, Service
 from . import utils
@@ -25,7 +26,7 @@ def index(request):
         master__is_shown=True
     )
 
-    paginator = Paginator(services, 2)
+    paginator = Paginator(services, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -66,6 +67,7 @@ def master_detail(request, master_slug):
     return render(request, template_name, context)
 
 
+@login_required
 def order_list(request):
     template_name = 'service/order_list.html'
 
@@ -81,7 +83,7 @@ def order_list(request):
         order.time_slot.start_time = order.time_slot.start_time.strftime(
             '%d/%m/%Y %H:%M')
 
-    paginator = Paginator(orders, 2)
+    paginator = Paginator(orders, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -92,6 +94,7 @@ def order_list(request):
     return render(request, template_name, context)
 
 
+@login_required
 def order_detail(request, order_id):
     template_name = 'service/order_detail.html'
 
@@ -120,6 +123,7 @@ def order_detail(request, order_id):
     return render(request, template_name, context)
 
 
+@login_required
 def order_create(request, service_slug):
 
     template_name = 'service/order_create.html'
@@ -145,6 +149,7 @@ def order_create(request, service_slug):
     return render(request, template_name, {'form': form})
 
 
+@login_required
 def order_delete(request, order_id):
     order = get_object_or_404(Order, id=order_id)
 
@@ -164,6 +169,7 @@ def order_delete(request, order_id):
     )
 
 
+@login_required
 def order_success(request, order_id):
 
     template_name = 'service/order_success.html'
@@ -183,6 +189,7 @@ def order_success(request, order_id):
     return render(request, template_name, context)
 
 
+@login_required
 def get_time_slots(request):
     box_id = request.GET.get('box_id')
     service_id = request.GET.get('service_id')

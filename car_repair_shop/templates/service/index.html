@@ -15,7 +15,9 @@
     <p>
       {{ service.text|truncatewords:10 }}
     </p>
-    <a class="btn btn-success" href="{% url 'service:order_create' service.slug %}">Записать</a>
+    {% if user.is_authenticated %}
+      <a class="btn btn-success" href="{% url 'service:order_create' service.slug %}">Записать</a>
+    {% endif %}
     <a class="btn btn-info" href="{% url 'service:service_detail' service.slug %}">Информация об услуге</a>
   </article>
   {% if not forloop.last %}

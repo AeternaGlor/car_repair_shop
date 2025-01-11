@@ -10,7 +10,7 @@
     <h3>Запись номер: {{ order.id }}</h3>
     <h6>Услуга: <a href="{% url 'service:service_detail' order.service.slug %}">{{ order.service.name }}</a></h6>
     <h6>Время: {{ order.time_slot.start_time }}</h6>
-    <a class="btn btn-danger" href="{% url 'service:order_delete' order.id %}">Удалить заказ</a>
+    <a class="btn btn-danger" href="{% url 'service:order_delete' order.id %}">Удалить запись</a>
     <a class="btn btn-info" href="{% url 'service:order_detail' order.id %}">Информация о заказе</a>
   </article>
   {% if not forloop.last %}

@@ -33,6 +33,7 @@
                  Каталог услуг
               </a>
             </li>
+            {% if user.is_authenticated %}
             <li class="nav-item">
               <a class="nav-link 
                 {% if view_name  == 'service:order_list' %}active{% endif %}" 
@@ -40,6 +41,7 @@
                  Список записей
               </a>
             </li>
+            {% endif %}
             <li class="nav-item">              
               <a class="nav-link
                 {% if view_name  == 'pages:about' %}active{% endif %}" 
