@@ -137,7 +137,7 @@ ADMIN_MEDIA_PREFIX = '/media/admin/'
 CSRF_FAILURE_VIEW = 'pages.views.custom_403_CSRF'
 
 LOGIN_REDIRECT_URL = 'service:index'
-LOGIN_URL = 'login' 
+LOGIN_URL = 'login'
 
 # Подключаем бэкенд filebased.EmailBackend:
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
