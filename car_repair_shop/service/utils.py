@@ -20,7 +20,7 @@ def filter_orders(objects):
     return objects.filter(
         service__is_shown=True,
         service__master__is_shown=True,
-        time_slot__start_time__lte=timezone.now(),
+        time_slot__start_time__gte=timezone.now(),
     )
 
 
