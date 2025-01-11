@@ -141,7 +141,7 @@ def order_create(request, service_slug):
             order.service.master.slots.add(order.time_slot)
             order.box.slots.add(order.time_slot)
 
-            order.cusotomer.discount = order.cusotomer.discount + 1
+            order.customer.discount = order.customer.discount + 1
 
             return redirect('service:order_success', order_id=order.id)
 
