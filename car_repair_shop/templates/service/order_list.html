@@ -3,14 +3,15 @@
 {% block title %}Список услуг{% endblock %}
 
 {% block content %}
-<h1>Заказы</h1>
+<h1>Список записей</h1>
 <hr>
 {% for order in page_obj %}
   <article>
-    <h3>Заказ номер: {{ order.id }}</h3>
+    <h3>Запись номер: {{ order.id }}</h3>
     <h6>Услуга: <a href="{% url 'service:service_detail' order.service.slug %}">{{ order.service.name }}</a></h6>
     <h6>Время: {{ order.time_slot.start_time }}</h6>
-    <a href="{% url 'service:order_detail' order.id %}">Информация о заказе</a>
+    <a class="btn btn-danger" href="{% url 'service:order_delete' order.id %}">Удалить заказ</a>
+    <a class="btn btn-info" href="{% url 'service:order_detail' order.id %}">Информация о заказе</a>
   </article>
   {% if not forloop.last %}
     <hr>

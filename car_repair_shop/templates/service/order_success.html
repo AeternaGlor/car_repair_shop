@@ -7,7 +7,7 @@
 
 {% block content %}
 <article>
-  <h3>Запись номер: {{ order.id }}</h3>
+  <h3>Заказ номер: {{ order.id }} создан</h3>
   <ul>
     <li>
       Услуга: <a href="{% url 'service:service_detail' order.service.slug %}">{{ order.service.name }}</a>

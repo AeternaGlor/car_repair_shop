@@ -104,8 +104,7 @@ def order_detail(request, order_id):
         id=order_id
     )
 
-    final_price = order.service.price * (100 - order.customer.discount) / 100
-    final_price = int(final_price)
+    final_price = utils.calculate_price(order)
 
     ruble_word_form = utils.PluralRubleForm(final_price)
 
@@ -121,7 +120,7 @@ def order_detail(request, order_id):
     return render(request, template_name, context)
 
 
-def create_order(request, service_slug):
+def order_create(request, service_slug):
 
     template_name = 'service/order_create.html'
 
@@ -129,8 +128,8 @@ def create_order(request, service_slug):
 
     if request.method == 'POST':
         form = forms.CreateOrderForm(request.POST)
-        if form.is_valid():
 
+        if form.is_valid():
             order = form.save(commit=False)
             order.service = service
             order.save()
@@ -138,10 +137,50 @@ def create_order(request, service_slug):
             order.service.master.slots.add(order.time_slot)
             order.box.slots.add(order.time_slot)
 
-            return redirect('service:index')  # Перенаправь на страницу успеха
-    else:
-        form = forms.CreateOrderForm(initial={'service': service})
+            order.cusotomer.discount = order.cusotomer.discount + 1
+
+            return redirect('service:order_success', order_id=order.id)
+
+    form = forms.CreateOrderForm(initial={'service': service})
     return render(request, template_name, {'form': form})
+
+
+def order_delete(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+
+    if request.method == 'POST':
+
+        order.service.master.slots.remove(order.time_slot)
+        order.box.slots.remove(order.time_slot)
+
+        order.delete()
+
+        return redirect('service:order_list')
+
+    return render(
+        request,
+        'service/order_delete.html',
+        {'order': order}
+    )
+
+
+def order_success(request, order_id):
+
+    template_name = 'service/order_success.html'
+
+    order = get_object_or_404(Order, id=order_id)
+
+    final_price = utils.calculate_price(order)
+
+    ruble_word_form = utils.PluralRubleForm(final_price)
+
+    context = {
+        'order': order,
+        'final_price': final_price,
+        'ruble_word_form': ruble_word_form
+    }
+
+    return render(request, template_name, context)
 
 
 def get_time_slots(request):

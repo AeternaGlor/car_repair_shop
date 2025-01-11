@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+{% block title %}
+  {% if '/edit/' in request.path %}
+    Редактирование записи
+  {% elif "/delete/" in request.path %}
+    Удаление записи
+  {% else %}
+    Добавление записи
+  {% endif %}
+{% endblock %}
+{% block content %}
+  <div class="col d-flex justify-content-center">
+    <div class="card" style="width: 40rem;">
+      <div class="card-header">
+        {% if '/edit/' in request.path %}
+          Редактирование записи
+        {% elif '/delete/' in request.path %}
+          Удаление записи
+        {% else %}
+          Добавление записи
+        {% endif %}
+      </div>
+      <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% if not '/delete/' in request.path %}
+            {% bootstrap_form form %}
+          {% else %}
+            <article>
+              {% if form.instance.image %}
+                <a href="{{ form.instance.image.url }}" target="_blank">
+                  <img class="border-3 rounded img-fluid img-thumbnail mb-2" src="{{ form.instance.image.url }}">
+                </a>
+              {% endif %}
+              <p>{{ form.instance.pub_date|date:"d E Y" }} | {% if form.instance.location and form.instance.location.is_published %}{{ form.instance.location.name }}{% else %}Вы действительно хотите удалить запись?{% endif %}<br>
+              <h3>{{ form.instance.title }}</h3>
+              <p>{{ form.instance.text|linebreaksbr }}</p>
+            </article>
+          {% endif %}
+          {% bootstrap_button button_type="submit" content="Подтвердить" %}
+        </form>
+        
+        <script>
+            $(document).ready(function() {
+                $('#id_box, #id_service').change(function() {
+                    var boxId = $('#id_box').val();
+                    var serviceId = $('#id_service').val();
+                    $.ajax({
+                        url: '/get_time_slots/',
+                        data: {
+                            'box_id': boxId,
+                            'service_id': serviceId
+                        },
+                        success: function(data) {
+                            var timeSlotSelect = $('#id_time_slot');
+                            timeSlotSelect.empty();
+                            data.time_slots.forEach(function(timeSlot) {
+                                timeSlotSelect.append('<option value="' + timeSlot.id + '">' + timeSlot.start_time + '</option>');
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
+      </div>
+    </div>
+  </div>
+{% endblock %}

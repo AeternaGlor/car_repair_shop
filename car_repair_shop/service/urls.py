@@ -21,8 +21,18 @@ urlpatterns = [
     ),
     path(
         'orders/create/<slug:service_slug>',
-        views.create_order,
-        name='create_order'
+        views.order_create,
+        name='order_create'
+    ),
+    path(
+        'orders/create/success/<int:order_id>',
+        views.order_success,
+        name='order_success'
+    ),
+    path(
+        'orders/delete/<int:order_id>',
+        views.order_delete,
+        name='order_delete'
     ),
     path(
         'get_time_slots/',
