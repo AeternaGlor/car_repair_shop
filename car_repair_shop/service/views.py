@@ -183,8 +183,18 @@ def profile(request, username):
 
 class UpdateUser(LoginRequiredMixin, UpdateView):
     model = User
-    fields = ('username', 'first_name', 'last_name', 'email')
+    fields = (
+        'username',
+        'first_name',
+        'last_name',
+        'email',
+        'is_staff',
+        'is_superuser'
+    )
     template_name = 'service/user.html'
+
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
     
     def get_success_url(self):
         return reverse(

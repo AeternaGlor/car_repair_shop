@@ -61,9 +61,13 @@
            <li class="nav-item">
              <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
            </li>
-           <li class="nav-item">
+           {% comment %} <li class="nav-item">
             <a class="nav-link{% if view_name == 'password_change' %} active {% endif %}"
               href="{% url 'password_change' %}">Изменить пароль</a>
+          </li> {% endcomment %}
+          <li class="nav-item">
+            <a class="nav-link{% if view_name == 'profile' %} active {% endif %}"
+              href="{% url 'service:profile' user.username %}">Профиль</a>
           </li>
          <!-- Конец блока ссылок для авторизованного пользователя -->
 
